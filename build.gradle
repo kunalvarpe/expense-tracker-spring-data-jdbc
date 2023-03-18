@@ -1,0 +1,42 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.0.4'
+	id 'io.spring.dependency-management' version '1.1.0'
+}
+
+group = 'io.kunalvarpe'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	bootStrapBersion = '4.2.1'
+	webjarsJqueryVersion = '3.3.1-1'
+	webjarsJqueryUiVersion = '1.11.4'
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	// DB
+	runtimeOnly 'org.postgresql:postgresql'
+	runtimeOnly 'org.flywaydb:flyway-core'
+
+	//FontEnd
+	implementation "org.webjars:bootstrap:${bootStrapBersion}"
+	implementation "org.webjars:webjars-locator-core"
+	implementation "org.webjars:jquery:${webjarsJqueryVersion}"
+	implementation "org.webjars:jquery-ui:${webjarsJqueryUiVersion}"
+
+	//Test
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+	useJUnitPlatform()
+}
