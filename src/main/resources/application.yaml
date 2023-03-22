@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: "Expense Tracker"
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  sql:
+    init:
+      mode: always
+  jpa:
+    defer-datasource-initialization: true
+    database-platform: postgres
+    show-sql: true
+  output:
+    ansi:
+      enabled: always
+  main:
+    lazy-initialization: true
