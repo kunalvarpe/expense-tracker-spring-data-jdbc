@@ -1,3 +1,5 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.4'
@@ -42,10 +44,15 @@ test {
 tasks.register('buildFrontend') {
 	description "Build tailwind css"
 	doLast {
+		def npmCommand = 'npm'
+		if (isFamily(FAMILY_WINDOWS)) {
+			npmCommand = 'npm.cmd'
+		}
+		println "Using command : ${npmCommand}"
 		exec {
 			workingDir "${projectDir}/src/main/frontend"
-			commandLine 'cmd', '/c', 'npm', 'install'
-			commandLine 'cmd', '/c', 'npm', 'run', 'build'
+			commandLine npmCommand, 'install'
+			commandLine npmCommand, 'run', 'build'
 		}
 		println "Frontend module with tailwind css built!"
 	}
@@ -58,10 +65,15 @@ tasks.named("build") {
 tasks.register('frontEndDev') {
 	description "Watch for the changes in frontend module e.g. tailwind css"
 	doLast {
+		def npmCommand = 'npm'
+		if (isFamily(FAMILY_WINDOWS)) {
+			npmCommand = 'npm.cmd'
+		}
+		println "Using command : ${npmCommand}"
 		exec {
 			workingDir "${projectDir}/src/main/frontend"
-			commandLine 'cmd', '/c', 'npm', 'install'
-			commandLine 'cmd', '/c', 'npm', 'run', 'watch', '--', '-o', "../resources/static/main.css"
+			commandLine npmCommand, 'install'
+			commandLine npmCommand, 'run', 'watch', '--', '-o', "../resources/static/main.css"
 		}
 		println "Frontend module with tailwind css built!"
 	}
