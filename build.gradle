@@ -1,3 +1,5 @@
+import static org.apache.tools.ant.taskdefs.condition.Os.*
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.4'
@@ -27,14 +29,11 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	runtimeOnly 'org.flywaydb:flyway-core'
 
-	//FontEnd
-	implementation "org.webjars:bootstrap:${bootStrapBersion}"
-	implementation "org.webjars:webjars-locator-core"
-	implementation "org.webjars:jquery:${webjarsJqueryVersion}"
-	implementation "org.webjars:jquery-ui:${webjarsJqueryUiVersion}"
-
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//Test
+	testImplementation 'org.testcontainers:junit-jupiter:1.17.6'
+	testImplementation "org.testcontainers:postgresql:1.17.6"
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -45,10 +44,15 @@ test {
 tasks.register('buildFrontend') {
 	description "Build tailwind css"
 	doLast {
+		def npmCommand = 'npm'
+		if (isFamily(FAMILY_WINDOWS)) {
+			npmCommand = 'npm.cmd'
+		}
+		println "Using command : ${npmCommand}"
 		exec {
 			workingDir "${projectDir}/src/main/frontend"
-			commandLine 'cmd', '/c', 'npm', 'install'
-			commandLine 'cmd', '/c', 'npm', 'run', 'build'
+			commandLine npmCommand, 'install'
+			commandLine npmCommand, 'run', 'build'
 		}
 		println "Frontend module with tailwind css built!"
 	}
@@ -61,10 +65,15 @@ tasks.named("build") {
 tasks.register('frontEndDev') {
 	description "Watch for the changes in frontend module e.g. tailwind css"
 	doLast {
+		def npmCommand = 'npm'
+		if (isFamily(FAMILY_WINDOWS)) {
+			npmCommand = 'npm.cmd'
+		}
+		println "Using command : ${npmCommand}"
 		exec {
 			workingDir "${projectDir}/src/main/frontend"
-			commandLine 'cmd', '/c', 'npm', 'install'
-			commandLine 'cmd', '/c', 'npm', 'run', 'watch', '--', '-o', "../resources/static/main.css"
+			commandLine npmCommand, 'install'
+			commandLine npmCommand, 'run', 'watch', '--', '-o', "../resources/static/main.css"
 		}
 		println "Frontend module with tailwind css built!"
 	}

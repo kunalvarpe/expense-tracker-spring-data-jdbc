@@ -660,6 +660,10 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.p-4 {
+  padding: 1rem;
+}
+
 .p-6 {
   padding: 1.5rem;
 }
@@ -729,19 +733,14 @@ video {
   line-height: 1.25;
 }
 
-.text-neutral-600 {
+.text-gray-900 {
   --tw-text-opacity: 1;
-  color: rgb(82 82 82 / var(--tw-text-opacity));
+  color: rgb(17 24 39 / var(--tw-text-opacity));
 }
 
-.text-neutral-800 {
+.text-stone-900 {
   --tw-text-opacity: 1;
-  color: rgb(38 38 38 / var(--tw-text-opacity));
-}
-
-.text-stone-800 {
-  --tw-text-opacity: 1;
-  color: rgb(41 37 36 / var(--tw-text-opacity));
+  color: rgb(28 25 23 / var(--tw-text-opacity));
 }
 
 .text-white {
