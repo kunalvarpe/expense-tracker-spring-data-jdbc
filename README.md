@@ -1,7 +1,7 @@
 # Expense Tracker
 Expense tracker sample spring boot application
 
-![Build Gradle](https://github.com/kunalvarpe/expense-tracker-spring-data-jdbc/workflows/Build%20Gradle/badge.svg)
+![Build](https://github.com/kunalvarpe/expense-tracker-spring-data-jdbc/actions/workflows/gradle.yml/badge.svg)
 
 This project demonstrate the expense tracker app using spring boot application and thymleaf.
 
