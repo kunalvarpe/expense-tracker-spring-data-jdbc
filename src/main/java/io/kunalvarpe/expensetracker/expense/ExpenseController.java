@@ -1,6 +1,6 @@
 package io.kunalvarpe.expensetracker.expense;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,7 +24,7 @@ public class ExpenseController {
 
 	@GetMapping("/expenses")
 	public String expenses(String userId, Model model) {
-		Collection<Expense> expenses = expenseService.findUser(1);
+		List<Expense> expenses = expenseService.findUser(1);
 		model.addAttribute("expenses", expenses);
 		return "expenses/expenses";
 	}

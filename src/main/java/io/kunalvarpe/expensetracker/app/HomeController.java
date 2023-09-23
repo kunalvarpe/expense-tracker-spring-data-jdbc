@@ -6,10 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class WelcomeController {
+class HomeController {
 
 	@GetMapping("/")
-	public String welcome(Model model) {
+	String welcome(Model model) {
 		model.addAttribute("userName", "Kunal Varpe");
 		model.addAttribute("userId", 1);
 		return "index";

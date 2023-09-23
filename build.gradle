@@ -8,8 +8,13 @@ plugins {
 
 group = 'io.kunalvarpe'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
 
+java {
+	sourceCompatibility = '21'
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
 repositories {
 	mavenCentral()
 }
@@ -18,7 +23,9 @@ ext {
 	bootStrapBersion = '4.2.1'
 	webjarsJqueryVersion = '3.3.1-1'
 	webjarsJqueryUiVersion = '1.11.4'
+	set('testcontainersVersion', "1.18.0")
 }
+
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -30,15 +37,27 @@ dependencies {
 	runtimeOnly 'org.flywaydb:flyway-core'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	//Test
-	testImplementation 'org.testcontainers:junit-jupiter:1.17.6'
-	testImplementation "org.testcontainers:postgresql:1.17.6"
 
+	//Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation "org.testcontainers:postgresql"
+	testImplementation 'io.rest-assured:rest-assured'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+	}
 }
 
 test {
 	useJUnitPlatform()
+	testLogging {
+		events = ["PASSED", "FAILED", "SKIPPED"]
+		showStandardStreams = true
+		exceptionFormat = "full"
+	}
 }
 
 tasks.register('buildFrontend') {

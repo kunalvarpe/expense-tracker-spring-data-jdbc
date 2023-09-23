@@ -7,7 +7,6 @@ import org.springframework.data.relational.core.mapping.Table;
 
 @Table("expenses")
 public record Expense(
-
 		@Id
 		Integer id,
 		String name,
@@ -18,4 +17,11 @@ public record Expense(
 		LocalDateTime createdAt,
 		LocalDateTime updatedAt
 ) {
+	public Expense(String name,
+			Category category,
+			Double amount,
+			String currency,
+			Integer userId) {
+		this(null, name, category, amount, currency, userId, LocalDateTime.now(), null);
+	}
 }
