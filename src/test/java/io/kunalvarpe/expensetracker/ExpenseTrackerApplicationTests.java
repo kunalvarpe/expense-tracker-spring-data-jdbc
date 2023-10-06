@@ -28,9 +28,8 @@ class ExpenseTrackerApplicationTests {
 	private Integer port;
 
 	@Container
-	static PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>(
-			DockerImageName.parse("postgres:14-alpine")
-	);
+	static PostgreSQLContainer<?> postgreSQLContainer =
+			new PostgreSQLContainer<>(DockerImageName.parse("postgres:14-alpine"));
 
 	@BeforeAll
 	static void beforeAll() {
