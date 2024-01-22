@@ -1,5 +1,3 @@
-import org.apache.tools.ant.taskdefs.condition.Os
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.0.4'
@@ -59,47 +57,5 @@ test {
 		showStandardStreams = true
 		exceptionFormat = "full"
 	}
-}
-
-tasks.register('buildFrontend') {
-	description "Build tailwind css"
-	doLast {
-		def npmCommand = 'npm'
-		if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-			npmCommand = 'npm.cmd'
-		}
-		println "Using command : ${npmCommand}"
-		exec {
-			workingDir "${projectDir}/src/main/frontend"
-			commandLine npmCommand, 'install'
-			commandLine npmCommand, 'run', 'build'
-		}
-		println "Frontend module with tailwind css built!"
-	}
-}
-
-tasks.named("build") {
-	finalizedBy("buildFrontend")
-}
-
-tasks.register('frontEndDev') {
-	description "Watch for the changes in frontend module e.g. tailwind css"
-	doLast {
-		def npmCommand = 'npm'
-		if (isFamily(FAMILY_WINDOWS)) {
-			npmCommand = 'npm.cmd'
-		}
-		println "Using command : ${npmCommand}"
-		exec {
-			workingDir "${projectDir}/src/main/frontend"
-			commandLine npmCommand, 'install'
-			commandLine npmCommand, 'run', 'watch', '--', '-o', "../resources/static/main.css"
-		}
-		println "Frontend module with tailwind css built!"
-	}
-}
-
-tasks.named("bootRun") {
-	dependsOn 'frontEndDev'
 }
 

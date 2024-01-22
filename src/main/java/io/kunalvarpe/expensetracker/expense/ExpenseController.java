@@ -2,11 +2,20 @@ package io.kunalvarpe.expensetracker.expense;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@RequestMapping("/api")
+@CrossOrigin("http://localhost:3000")
 public class ExpenseController {
 
 	private final ExpenseService expenseService;
@@ -16,16 +25,29 @@ public class ExpenseController {
 	}
 
 	@GetMapping("/insights")
-	public String expenseInsights(String userId, Model model) {
-		ExpenseInsight expenseInsight = expenseService.expenseInsight(1);
-		model.addAttribute("expenseInsight", expenseInsight);
-		return "expenses/insights";
+	public ExpenseInsight expenseInsights(@RequestParam Integer userId) {
+		return expenseService.expenseInsight(userId);
 	}
 
 	@GetMapping("/expenses")
-	public String expenses(String userId, Model model) {
-		List<Expense> expenses = expenseService.findUser(1);
-		model.addAttribute("expenses", expenses);
-		return "expenses/expenses";
+	public List<ExpenseDto> expenses(@RequestParam Integer userId) {
+		return expenseService.findAllExpenses(userId);
+	}
+
+	@PostMapping("/expenses")
+	public ResponseEntity<String> createExpense(@RequestParam Integer userId, @RequestBody ExpenseDto expense) {
+		expenseService.createExpense(userId, expense);
+		return ResponseEntity.ok("Expense added successfully.");
+	}
+
+	@GetMapping("/expenses/{id}")
+	public ExpenseDto getExpense(@PathVariable Integer id) {
+		return expenseService.findExpense(id);
+	}
+
+	@DeleteMapping("/expenses/{id}")
+	public ResponseEntity<String> deleteExpense(@PathVariable Integer id) {
+		expenseService.deleteExpense(id);
+		return ResponseEntity.noContent().build();
 	}
 }

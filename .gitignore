@@ -1,7 +1,3 @@
-.gradle
-/build/
-/out
-**/node_modules/
 # Ignore Gradle GUI config
 gradle-app.setting
 
@@ -10,10 +6,13 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
-
-# # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
-# gradle/wrapper/gradle-wrapper.properties
-
+.gradle
+/build/
+/out
 
 # IDEA
 .idea/
+
+#React
+node_modules
+package-lock.json

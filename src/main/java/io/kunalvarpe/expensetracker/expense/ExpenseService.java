@@ -13,8 +13,12 @@ public class ExpenseService {
 
 	private final ExpenseRepository expenseRepository;
 
-	public ExpenseService(ExpenseRepository expenseRepository) {
+	private final ExpenseMapper expenseMapper;
+
+	public ExpenseService(ExpenseRepository expenseRepository,
+			ExpenseMapper expenseMapper) {
 		this.expenseRepository = expenseRepository;
+		this.expenseMapper = expenseMapper;
 	}
 
 	public ExpenseInsight expenseInsight(Integer userId) {
@@ -43,7 +47,20 @@ public class ExpenseService {
 		);
 	}
 
-	public List<Expense> findUser(Integer userId) {
-		return expenseRepository.findByUserId(userId);
+	public List<ExpenseDto> findAllExpenses(Integer userId) {
+		return expenseRepository.findByUserId(userId).stream().map(expenseMapper::toDto).toList();
+	}
+
+	public void createExpense(Integer userId, ExpenseDto expense) {
+		Expense expenseToCreate = expenseMapper.toEntity(expense, userId);
+		expenseRepository.save(expenseToCreate);
+	}
+
+	public ExpenseDto findExpense(Integer id) {
+		return expenseRepository.findById(id).map(expenseMapper::toDto).orElseThrow();
+	}
+
+	public void deleteExpense(Integer id) {
+		expenseRepository.deleteById(id);
 	}
 }
